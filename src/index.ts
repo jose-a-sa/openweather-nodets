@@ -5,7 +5,7 @@ import https, { RequestOptions } from "https";
 import path from "path";
 
 const app = express();
-const port = 8080; // default port to listen
+const port = 8000; // default port to listen
 
 const apiKey = "4d16dd9231c3dfcf859146679a038bcd";
 

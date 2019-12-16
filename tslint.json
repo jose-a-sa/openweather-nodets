@@ -13,6 +13,5 @@
             "allow-declarations"
         ]
     },
-    "rulesDirectory": [],
-    "allowDeclarations": true
+    "rulesDirectory": []
 }
