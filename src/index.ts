@@ -1,14 +1,12 @@
 import bodyParser from "body-parser";
 import express from "express";
-import { ClientRequest, IncomingMessage } from "http";
-import https, { RequestOptions } from "https";
 import path from "path";
+import { IWeatherApp } from "./IWeatherApp";
 import { OpenWeather } from "./open-weather/OpenWeather";
+import { ITemperature, Temperature } from "./open-weather/Temperature";
 
 const app = express();
 const port: number = 8000; // default port to listen
-
-const apiKey: string = "4d16dd9231c3dfcf859146679a038bcd";
 
 // Configure Express to use EJS
 app.set("views", path.join(__dirname, "views"));
@@ -19,39 +17,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // define a route handler for the default home page
 app.get("/", (req, res) => {
-    const openWeatherData: OpenWeather = new OpenWeather(undefined, false);
-    res.render("index", openWeatherData.weatherApp);
+    res.render("index", OpenWeather.EMPTY_APP);
 });
 
 app.post("/", (req, res) => {
     const city: string = req.body.city;
-    // tslint:disable-next-line:no-console
-    console.log(city);
+    const country: string = req.body.country;
 
-    const url: string = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-    // tslint:disable-next-line:no-console
-    console.log(url);
+    const openWeather: OpenWeather = new OpenWeather();
 
-    const weatherReq: ClientRequest = https.get(url, (r: IncomingMessage) => {
-        let data: string = "";
-
-        r.addListener("data", (chunk: any) => {
-            data += chunk;
+    if (openWeather.query(city, country)) {
+        openWeather.on("queryEnd", (wApp: IWeatherApp) => {
+            res.render("index", wApp);
         });
 
-        r.addListener("end", () => {
-            const openWeatherData: OpenWeather = new OpenWeather(JSON.parse(data));
-            res.render("index", openWeatherData.weatherApp);
+        openWeather.on("queryError", (wApp: IWeatherApp) => {
+            res.render("index", wApp);
         });
-    });
-
-    weatherReq.addListener("error", (error: Error) => {
-        const openWeatherData: OpenWeather = new OpenWeather(undefined, true);
-        res.render("index", openWeatherData.weatherApp);
-
-        // tslint:disable-next-line:no-console
-        console.log("Error: " + error.message);
-    });
+    } else {
+        res.render("index", openWeather.toWeatherApp());
+    }
 });
 
 // start the express server

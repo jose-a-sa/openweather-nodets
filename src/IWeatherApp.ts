@@ -1,8 +1,9 @@
 import { ITemperature } from "./open-weather/Temperature";
 
 export interface IWeatherApp {
-    error: boolean;
-    dataReady: boolean;
     city: string;
+    countryCode: string;
+    querySuccess: boolean;
+    requestSuccess: boolean;
     temperature: ITemperature;
 }

@@ -1,9 +1,11 @@
+import { test } from "shelljs";
+
 export interface IGeoCoordinate {
     lon: number;
     lat: number;
 }
 
-export interface IWeatherItem {
+export interface IWeatherCondition {
     id: number;
     main: string;
     description: string;
@@ -11,12 +13,14 @@ export interface IWeatherItem {
 }
 
 export interface IMainData {
-    temp: number;
+    temp: number; // Temperature. Unit Default: Kelvin
     feels_like: number;
     temp_min: number;
     temp_max: number;
-    pressure: number;
-    humidity: number;
+    pressure: number; // Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa
+    humidity: number; // Humidity, %
+    sea_level: number; // Atmospheric pressure on the sea level, hPa
+    grnd_level: number; // Atmospheric pressure on the ground level, hPa
 }
 
 export interface IWindData {
@@ -31,19 +35,27 @@ export interface ICloudData {
 export interface ICityData {
     type: number;
     id: number;
+    message: string;
     country: string;
     sunrise: number;
     sunset: number;
 }
 
+export interface IPrecipitationData {
+    "1h": number; // snow/rain volume for the last 1 hour, mm
+    "3h": number; // snow/rain volume for the last 3 hours, mm
+}
+
 export interface IOpenWeatherCurrent {
     coord: IGeoCoordinate;
-    weather: IWeatherItem[];
+    weather: IWeatherCondition[];
     base: string;
     main: IMainData;
     visibility: number;
     wind: IWindData;
     clouds: ICloudData;
+    rain: IPrecipitationData;
+    snow: IPrecipitationData;
     dt: number;
     sys: ICityData;
     timezone: number;

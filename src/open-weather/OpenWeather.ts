@@ -1,61 +1,130 @@
 import { EventEmitter } from "events";
+import { ClientRequest, IncomingMessage } from "http";
+import https from "https";
 import { IWeatherApp } from "../IWeatherApp";
 import { IOpenWeatherCurrent } from "./IOpenWeatherCurrent";
 import { ITemperature, Temperature } from "./Temperature";
 
-export class OpenWeather {
+export interface IOpenWeather extends EventEmitter {
+    emit(event: "queryStart", url: string, city?: string, country?: string): boolean;
+    emit(event: "queryEnd" | "queryError", wApp: IWeatherApp): boolean;
+    emit(event: "queryData", chunk: any): boolean;
+    // emit(event: string | symbol, ...args: any[]): boolean;
+    on(event: "queryStart", listener: (url: string, city?: string, country?: string) => void): this;
+    on(event: "queryEnd" | "queryError", listener: (wApp: IWeatherApp) => void): this;
+    on(event: "queryData", listener: (chunk: any) => void): this;
+    // on(event: string | symbol, listener: (...args: any[]) => void): this;
+}
 
-    private data: IOpenWeatherCurrent;
-    private error: boolean;
+export class OpenWeather extends EventEmitter implements IWeatherApp, IOpenWeather {
+    private _apiKey: string = "4d16dd9231c3dfcf859146679a038bcd";
+    private _host: string = `https://api.openweathermap.org/data/2.5/weather?appid=${this._apiKey}`;
 
-    constructor(d?: IOpenWeatherCurrent, e: boolean = false) {
-        this.data = d;
+    private _data: IOpenWeatherCurrent;
+    private _reqError: Error;
 
-        if (d === undefined) {
-            this.error = e;
+    constructor() {
+        super();
+    }
+
+    public query(city?: string, country?: string): boolean {
+        this._reqError = undefined;
+
+        let url: string = "";
+        if (city !== "") {
+            url = (country !== "") ? `${this._host}&q=${city},${country}` : `${this._host}&q=${city}`;
         } else {
-            this.error = (this.data.main === undefined);
+            url = (country !== "") ? `${this._host}&q=${country}` : "";
+        }
+
+        if (url !== "") {
+            const httpsReq: ClientRequest = https.get(url, (r: IncomingMessage) => {
+                this.emit("queryStart", url, city, country);
+
+                let incomingData: string = "";
+
+                r.on("data", (chunk: any) => {
+                    incomingData += chunk;
+                    this.emit("queryData", chunk);
+                });
+
+                r.on("end", () => {
+                    this._data = JSON.parse(incomingData) as IOpenWeatherCurrent;
+                    this.emit("queryEnd", this.toWeatherApp());
+                });
+            });
+
+            httpsReq.on("error", (error: Error) => {
+                this._reqError = error;
+                this.emit("queryError", this.toWeatherApp());
+                // tslint:disable-next-line:no-console
+                console.log("Error: " + error.message);
+            });
+
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public getData(): IOpenWeatherCurrent {
-        return this.data;
+    public get requestSuccess(): boolean {
+        if (this._reqError === undefined) {
+            return true;
+        }
+
+        return false;
     }
 
-    public get dataReady(): boolean {
-        return !(this.data === undefined);
+    public get querySuccess(): boolean {
+        if (!this.requestSuccess || this._data === undefined) {
+            return false;
+        }
+        if (this._data.cod !== 200) {
+            return false;
+        }
+        return true;
     }
 
     public get city(): string {
-        if (this.data === undefined) {
-            return null;
+        if (!this.querySuccess) {
+            return undefined;
         }
-
-        if (this.data.name === undefined) {
-            return null;
-        } else {
-            return this.data.name;
-        }
+        return this._data.name;
     }
 
     public get temperature(): ITemperature {
-        if (this.data === undefined) {
-            return null;
+        if (!this.querySuccess) {
+            return undefined;
         }
-
-        if (this.data.main === undefined) {
-            return null;
-        } else {
-            return  new Temperature(this.data.main.temp);
-        }
+        return new Temperature(this._data.main.temp);
     }
 
-    public get weatherApp(): IWeatherApp {
-        const r: IWeatherApp = {} as IWeatherApp;
-        r.error = this.error;
-        r.city = this.city;
-        r.dataReady = this.dataReady;
-        r.temperature = this.temperature;
-        return r;
+    public get countryCode(): string {
+        if (!this.querySuccess) {
+            return undefined;
+        }
+        return this._data.sys.country;
+    }
+
+    public toWeatherApp(): IWeatherApp {
+        const obj: IWeatherApp = {
+            city: this.city,
+            countryCode: this.countryCode,
+            querySuccess: this.querySuccess,
+            requestSuccess: this.requestSuccess,
+            temperature: this.temperature
+        } as IWeatherApp;
+        return obj;
+    }
+
+    public static get EMPTY_APP(): IWeatherApp {
+        const wApp: IWeatherApp = {
+            city: undefined,
+            countryCode: undefined,
+            querySuccess: false,
+            requestSuccess: false,
+            temperature: undefined
+        } as IWeatherApp;
+        return wApp;
     }
 }
