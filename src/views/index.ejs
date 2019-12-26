@@ -6,16 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Weather App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
 <body>
     <div class="container">
-        <h1 class="header">Weather app</h1>
+        <h1 class="card-panel teal white-text center-align">Weather app</h1>
+        <span class="hs1"></span>
         <div class="row">
             <form id="WeatherForm" name="WeatherForm" class="col s12" method="POST" action="/">
                 <div class="row">
@@ -28,11 +25,9 @@
                         <label class="active" for="country">Country</label>
                     </div>
                     <div class="col s12">
-                        <span class="row"></span>
+                        <span class="hs1"></span>
                         <button form="WeatherForm" class="btn waves-effect" type="submit">
-                            <i class="material-icons left">cloud</i>
-                            Get Weather
-                        </button>
+                            <i class="material-icons left">cloud</i>Summit</button>
                     </div>
                 </div>
             </form>
@@ -53,23 +48,8 @@
         </div>
         <% } %>
 
-        <div class="row" id="screenTest">
-            <div class="col s12"><div class="card-panel hoverable blue white-text center-align"><p>s12</p></div></div>
-            <div class="col s12 m4 l2"><div class="card-panel hoverable teal white-text center-align"><p>s12 m4 l2</p></div></div>
-            <div class="col s12 m4 l8"><div class="card-panel hoverable teal white-text center-align"><p>s12 m4 l8</p></div></div>
-            <div class="col s12 m4 l2"><div class="card-panel hoverable teal white-text center-align"><p>s12 m4 l2</p></div></div>
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-          </div>
-          <div class="row" id="screenTest">
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
-          </div>
-    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
 </html>

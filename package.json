@@ -6,12 +6,12 @@
     "scripts": {
         "clean": "rimraf dist/*",
         "copy-assets": "ts-node tools/copyAssets",
-        "scss": "node-sass --watch scss -o public/css",
+        "sass": "node-sass scss/ -o public/css",
         "lint": "tslint -c tslint.json -p tsconfig.json --fix",
         "tsc": "tsc",
-        "build": "npm-run-all clean lint tsc copy-assets",
+        "build": "npm-run-all clean lint tsc sass copy-assets",
         "dev:start": "npm-run-all build start",
-        "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
+        "dev": "nodemon --watch src --watch scss -e ts,ejs,scss,sass --exec npm run dev:start",
         "start": "node .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -22,16 +22,13 @@
         "body-parser": "^1.19.0",
         "ejs": "^3.0.1",
         "express": "^4.17.1",
-        "material-icons": "^0.3.1",
-        "request": "^2.88.0"
+        "node": "^13.5.0"
     },
     "devDependencies": {
         "@types/express": "^4.17.2",
-        "@types/fs-extra": "^8.0.1",
-        "@types/node": "^12.12.14",
+        "@types/node": "^12.12.22",
         "@types/node-sass": "^4.11.0",
         "@types/shelljs": "^0.8.6",
-        "fs-extra": "^8.1.0",
         "node-sass": "^4.13.0",
         "nodemon": "^2.0.1",
         "npm-run-all": "^4.1.5",
@@ -39,6 +36,6 @@
         "shelljs": "^0.8.3",
         "ts-node": "^8.5.4",
         "tslint": "^5.20.1",
-        "typescript": "^3.7.3"
+        "typescript": "^3.7.4"
     }
 }

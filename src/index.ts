@@ -3,7 +3,6 @@ import express from "express";
 import path from "path";
 import { IWeatherApp } from "./IWeatherApp";
 import { OpenWeather } from "./open-weather/OpenWeather";
-import { ITemperature, Temperature } from "./open-weather/Temperature";
 
 const app = express();
 const port: number = 8000; // default port to listen
