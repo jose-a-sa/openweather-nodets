@@ -8,29 +8,36 @@
         "copy-assets": "ts-node tools/copyAssets",
         "sass": "node-sass scss/ -o public/css",
         "lint": "tslint -c tslint.json -p tsconfig.json --fix",
-        "tsc": "tsc",
-        "build": "npm-run-all clean lint tsc sass copy-assets",
+        "tsc": "npx tsc",
+        "build": "npm-run-all clean sass lint tsc copy-assets",
         "dev:start": "npm-run-all build start",
         "dev": "nodemon --watch src --watch scss -e ts,ejs,scss,sass --exec npm run dev:start",
-        "start": "node .",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jose-a-sa/openweather-nodets.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jose-a-sa/openweather-nodets/issues"
+    },
+    "homepage": "https://github.com/jose-a-sa/openweather-nodets#readme",
     "dependencies": {
         "body-parser": "^1.19.0",
         "ejs": "^3.0.1",
-        "express": "^4.17.1",
-        "node": "^13.5.0"
+        "express": "^4.17.1"
     },
     "devDependencies": {
+        "@types/body-parser": "^1.17.1",
+        "@types/ejs": "^3.0.0",
         "@types/express": "^4.17.2",
-        "@types/node": "^12.12.22",
         "@types/node-sass": "^4.11.0",
         "@types/shelljs": "^0.8.6",
         "node-sass": "^4.13.0",
-        "nodemon": "^2.0.1",
+        "nodemon": "^2.0.2",
         "npm-run-all": "^4.1.5",
         "rimraf": "^3.0.0",
         "shelljs": "^0.8.3",
