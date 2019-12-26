@@ -1,5 +1,3 @@
-import { test } from "shelljs";
-
 export interface IGeoCoordinate {
     lon: number;
     lat: number;

@@ -27,13 +27,13 @@ app.post("/", (req, res) => {
     const openWeather: OpenWeather = new OpenWeather();
 
     if (openWeather.query(city, country)) {
-        openWeather.on("queryEnd", (wApp: IWeatherApp) => {
+        const listener = (wApp: IWeatherApp) => {
+            // tslint:disable-next-line:no-console
+            console.log(wApp);
             res.render("index", wApp);
-        });
-
-        openWeather.on("queryError", (wApp: IWeatherApp) => {
-            res.render("index", wApp);
-        });
+        };
+        openWeather.on("queryEnd", listener);
+        openWeather.on("queryError", listener);
     } else {
         res.render("index", openWeather.toWeatherApp());
     }
@@ -42,5 +42,5 @@ app.post("/", (req, res) => {
 // start the express server
 app.listen(port, () => {
     // tslint:disable-next-line:no-console
-    console.log(`server started at http://localhost:${port}`);
+    console.log(`server started at http://localhost:${port}\n`);
 });

@@ -1,0 +1,9 @@
+div#screenTest div.col  {
+    padding: 0 .25rem;
+}
+
+div#screenTest div.card-panel  {
+    padding: 1px;
+    margin: .25rem 0 .25rem 0;
+}
+

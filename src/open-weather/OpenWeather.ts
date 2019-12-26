@@ -2,19 +2,9 @@ import { EventEmitter } from "events";
 import { ClientRequest, IncomingMessage } from "http";
 import https from "https";
 import { IWeatherApp } from "../IWeatherApp";
+import { IOpenWeather } from "./IOpenWeather";
 import { IOpenWeatherCurrent } from "./IOpenWeatherCurrent";
 import { ITemperature, Temperature } from "./Temperature";
-
-export interface IOpenWeather extends EventEmitter {
-    emit(event: "queryStart", url: string, city?: string, country?: string): boolean;
-    emit(event: "queryEnd" | "queryError", wApp: IWeatherApp): boolean;
-    emit(event: "queryData", chunk: any): boolean;
-    // emit(event: string | symbol, ...args: any[]): boolean;
-    on(event: "queryStart", listener: (url: string, city?: string, country?: string) => void): this;
-    on(event: "queryEnd" | "queryError", listener: (wApp: IWeatherApp) => void): this;
-    on(event: "queryData", listener: (chunk: any) => void): this;
-    // on(event: string | symbol, listener: (...args: any[]) => void): this;
-}
 
 export class OpenWeather extends EventEmitter implements IWeatherApp, IOpenWeather {
     private _apiKey: string = "4d16dd9231c3dfcf859146679a038bcd";
@@ -32,7 +22,8 @@ export class OpenWeather extends EventEmitter implements IWeatherApp, IOpenWeath
 
         let url: string = "";
         if (city !== "") {
-            url = (country !== "") ? `${this._host}&q=${city},${country}` : `${this._host}&q=${city}`;
+            url += `${this._host}&q=`;
+            url += (country !== "") ? `${city},${country}` : `${city}`;
         } else {
             url = (country !== "") ? `${this._host}&q=${country}` : "";
         }
@@ -96,7 +87,7 @@ export class OpenWeather extends EventEmitter implements IWeatherApp, IOpenWeath
         if (!this.querySuccess) {
             return undefined;
         }
-        return new Temperature(this._data.main.temp);
+        return (new Temperature(this._data.main.temp)).toObject();
     }
 
     public get countryCode(): string {
@@ -126,5 +117,9 @@ export class OpenWeather extends EventEmitter implements IWeatherApp, IOpenWeath
             temperature: undefined
         } as IWeatherApp;
         return wApp;
+    }
+
+    public toString(): string {
+        return JSON.stringify(Object.assign({}, this.toWeatherApp()), null, "  ");
     }
 }

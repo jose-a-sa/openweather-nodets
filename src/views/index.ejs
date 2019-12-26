@@ -19,17 +19,19 @@
         <div class="row">
             <form id="WeatherForm" name="WeatherForm" class="col s12" method="POST" action="/">
                 <div class="row">
-                    <div class="input-field col s6">
+                    <div class="input-field col s12 m6">
                         <input id="city" name="city" type="text" class="validate">
                         <label class="active" for="city">City</label>
                     </div>
-                    <div class="input-field col s6">
+                    <div class="input-field col s12 m6">
                         <input id="country" name="country" type="text" class="validate">
                         <label class="active" for="country">Country</label>
                     </div>
-                    <div class="col s6">
+                    <div class="col s12">
+                        <span class="row"></span>
                         <button form="WeatherForm" class="btn waves-effect" type="submit">
-                            <i class="material-icons left">cloud</i>Get Weather
+                            <i class="material-icons left">cloud</i>
+                            Get Weather
                         </button>
                     </div>
                 </div>
@@ -45,11 +47,28 @@
         <% } %>
         <% if(!querySuccess && requestSuccess){ %>
         <div class="row">
-            <div class="red-text text-darken-4 col s12">
+            <div class="col s12 red-text text-darken-4">
                 <h4>Error, try again</h4>
             </div>
         </div>
         <% } %>
+
+        <div class="row" id="screenTest">
+            <div class="col s12"><div class="card-panel hoverable blue white-text center-align"><p>s12</p></div></div>
+            <div class="col s12 m4 l2"><div class="card-panel hoverable teal white-text center-align"><p>s12 m4 l2</p></div></div>
+            <div class="col s12 m4 l8"><div class="card-panel hoverable teal white-text center-align"><p>s12 m4 l8</p></div></div>
+            <div class="col s12 m4 l2"><div class="card-panel hoverable teal white-text center-align"><p>s12 m4 l2</p></div></div>
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+          </div>
+          <div class="row" id="screenTest">
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+            <div class="col s12 m6 l3"><div class="card-panel hoverable red lighten-2 white-text center-align"><p>s12 m6 l3</p></div></div>
+          </div>
     </div>
 </body>
 
