@@ -118,8 +118,4 @@ export class OpenWeather extends EventEmitter implements IWeatherApp, IOpenWeath
         } as IWeatherApp;
         return wApp;
     }
-
-    public toString(): string {
-        return JSON.stringify(Object.assign({}, this.toWeatherApp()), null, "  ");
-    }
 }

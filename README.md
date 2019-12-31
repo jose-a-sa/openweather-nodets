@@ -1,1 +1,1 @@
-# ts-essential
+# openweather-nodets

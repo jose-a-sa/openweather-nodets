@@ -51,14 +51,10 @@ export class Temperature implements ITemperature {
         return obj;
     }
 
-    public toString(): string {
-        return JSON.stringify(Object.assign({}, this.toObject()), null, "  ");
-    }
-
     private roundDecimalPlace(x: number, exponent: number = 0): number {
         if (!Number.isInteger(exponent)) {
             // tslint:disable-next-line:no-console
-            console.log(`Warning: the exponent ${exponent} will be converted to ${Math.floor(exponent)}`);
+            console.warn(`Warning: the exponent ${exponent} will be converted to ${Math.floor(exponent)}`);
             exponent = Math.floor(exponent);
         }
         return Math.round(x * Math.pow(10, exponent)) / Math.pow(10, exponent);
