@@ -1,3 +1,4 @@
 {
-    "remote.WSL.fileWatcher.polling": true
+    "remote.WSL.fileWatcher.polling": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

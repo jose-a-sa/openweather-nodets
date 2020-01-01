@@ -6,7 +6,7 @@ import { IOpenWeather } from "./IOpenWeather";
 import { IOpenWeatherCurrent } from "./IOpenWeatherCurrent";
 import { ITemperature, Temperature } from "./Temperature";
 
-export class OpenWeather extends EventEmitter implements IWeatherApp, IOpenWeather {
+export class OpenWeather extends EventEmitter implements IOpenWeather {
     private _apiKey: string = "4d16dd9231c3dfcf859146679a038bcd";
     private _host: string = `https://api.openweathermap.org/data/2.5/weather?appid=${this._apiKey}`;
 
