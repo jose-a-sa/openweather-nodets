@@ -1,5 +1,5 @@
 import bodyParser from "body-parser";
-import express from "express";
+import express, { RequestHandler } from "express";
 import path from "path";
 import { IWeatherApp } from "./IWeatherApp";
 import { OpenWeather } from "./open-weather/OpenWeather";
@@ -16,7 +16,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // define a route handler for the default home page
 app.get("/", (req, res) => {
+    // tslint:disable-next-line:no-console
+    console.log({ path: req.path, query: req.query });
     res.render("index", OpenWeather.EMPTY_APP);
+});
+
+// define a route handler for custom
+app.get("*", (req, res) => {
+    // tslint:disable-next-line:no-console
+    console.log({ path: req.path, query: req.query });
+    res.sendStatus(404);
 });
 
 app.post("/", (req, res) => {
