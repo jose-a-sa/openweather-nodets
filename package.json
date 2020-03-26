@@ -7,7 +7,7 @@
         "dev": "nodemon --watch src --watch scss -e ts,ejs,scss,sass --exec npm run dev:start",
         "dev:start": "npm-run-all build:all start",
         "build:all": "npm-run-all clean tslint build:tsc build:sass copy-assets",
-        "build:tsc": "npx tsc",
+        "build:tsc": "tsc",
         "build:sass": "node-sass scss/ -o public/css --output-style compressed",
         "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
         "start": "node .",
